@@ -40,3 +40,52 @@ input::placeholder {
   }
 }
 
+/* ---------------------------
+   Section "Comment trouver mon artisan ?"
+----------------------------*/
+
+.howto-section {
+  background-color: #f1f8fc; // gris/bleu très léger
+}
+
+.howto-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #00497c;
+}
+
+.howto-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.howto-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #0074c7;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.howto-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #00497c;
+}
+
+.howto-card-text {
+  font-size: 0.95rem;
+  margin: 0;
+  color: #384050;
+}
