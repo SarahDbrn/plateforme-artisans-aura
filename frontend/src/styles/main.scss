@@ -9,3 +9,16 @@ body {
   font-family: sans-serif;
   color: #384050;
 }
+
+.nav-link {
+  font-weight: 500;
+  cursor: pointer;
+
+  &.active {
+    text-decoration: underline;
+  }
+}
+
+input::placeholder {
+  font-style: italic;
+}
