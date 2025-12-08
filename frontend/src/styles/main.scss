@@ -6,6 +6,33 @@ $background: #f1f8fc;
 // Style de base du body
 body {
   background-color: $background;
-  font-family: sans-serif;
+  font-family: 'Graphik', sans-serif;
   color: #384050;
 }
+
+/* Importation de la police Graphik */
+@font-face {
+  font-family: 'Graphik';
+  src: url('../assets/fonts/Graphik-Bold-Trial.woff2') format('woff2'),
+       url('../assets/fonts/Graphik-BoldItalic-Trial.woff2') format('woff2'),
+       url('../assets/fonts/Graphik-RegularItalic-Trial.woff2') format('woff2'),
+       url('../assets/fonts/Graphik-Semibold-Trial.woff2') format('woff2'),
+       url('../assets/fonts/Graphik-SemiboldItalic-Trial.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Graphik';
+  src: url('../assets/fonts/Graphik-Bold-Trial.woff2') format('woff2'),
+       url('../assets/fonts/Graphik-BoldItalic-Trial.woff2') format('woff2'),
+       url('../assets/fonts/Graphik-RegularItalic-Trial.woff2') format('woff2'),
+       url('../assets/fonts/Graphik-Semibold-Trial.woff2') format('woff2'),
+       url('../assets/fonts/Graphik-SemiboldItalic-Trial.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Ajuster selon les styles que tu possèdes (Bold, Semibold, etc.) */
