@@ -4,6 +4,7 @@ import ListArtisans from './pages/ListArtisans';
 import ArtisanPage from './pages/ArtisanPage';
 import NotFound from './pages/NotFound';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
         <Route path="/artisan/:id" element={<ArtisanPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+      {/* Footer commun à toutes les pages*/}
+      <Footer/>
     </Router>
   );
 }
