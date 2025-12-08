@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import logoBlanc from '../assets/logo-blanc.png'; // ⬅️ Import du logo blanc
 
 function Footer() {
   return (
@@ -47,7 +48,7 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Colonne centre : adresse de Lyon */}
+          {/* Colonne centre : adresse */}
           <div className="col-12 col-md-4 mb-4 mb-md-0 small text-md-center">
             <p className="mb-0">101 cours Charlemagne</p>
             <p className="mb-0">CS 20033</p>
@@ -56,9 +57,13 @@ function Footer() {
             <p className="mb-0 mt-2">+33 (0)4 26 73 40 00</p>
           </div>
 
-          {/* Colonne droite : bloc "Trouve ton artisan !" */}
-          <div className="col-12 col-md-4 text-md-end">
-               {/* Logo */}
+          {/* Colonne droite : Logo blanc */}
+          <div className="col-12 col-md-4 text-md-end d-flex d-md-block justify-content-center mt-4 mt-md-0">
+            <img
+              src={logoBlanc}
+              alt="Logo Région Auvergne Rhône-Alpes"
+              style={{ height: '65px', objectFit: 'contain' }}
+            />
           </div>
         </div>
       </div>
