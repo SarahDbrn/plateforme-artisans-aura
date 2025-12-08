@@ -22,3 +22,21 @@ body {
 input::placeholder {
   font-style: italic;
 }
+
+// Footer
+/* ---------------------------
+   FOOTER LOGO (selon Figma)
+----------------------------*/
+
+.footer-logo {
+  height: 110px; /* taille desktop */
+  object-fit: contain;
+}
+
+/* Mobile/tablette */
+@media (max-width: 768px) {
+  .footer-logo {
+    display: none; /* faire disparaitre le logo sur la version mobile */
+  }
+}
+
