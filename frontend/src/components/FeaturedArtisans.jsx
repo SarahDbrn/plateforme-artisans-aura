@@ -65,7 +65,7 @@ function FeaturedArtisans() {
 
                   <p className="featured-city mb-1">{artisan.city}</p>
 
-                  <div className="featured-stars text-success">
+                  <div className="featured-stars">
                     {renderStars(artisan.rating)}
                   </div>
                 </div>

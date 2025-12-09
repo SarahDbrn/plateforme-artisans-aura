@@ -203,7 +203,7 @@ input::placeholder {
 ----------------------------*/
 
 .featured-section {
-  background-color: #f1f8fc; // même fond que les étapes
+  background-color: #f1f8fc; // même fond que la section étapes
 }
 
 .featured-title {
@@ -212,20 +212,27 @@ input::placeholder {
   color: #384050;
 }
 
-/* Carte artisan du mois */
+/* CARD – commune mobile & desktop */
 .featured-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   background-color: #ffffff;
   border-radius: 16px;
   padding: 14px 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  gap: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.featured-card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 }
 
 .featured-avatar {
   width: 56px;
   height: 56px;
   border-radius: 8px;
-  background-color: #d9d9d9; // gris comme le placeholder Figma
+  background-color: #d9d9d9; // placeholder gris Figma
   flex-shrink: 0;
 }
 
@@ -241,7 +248,7 @@ input::placeholder {
 
 .featured-specialty-link {
   font-size: 0.9rem;
-  color: #0074c7;
+  color: #0074c7;         // bleu lien
   text-decoration: underline;
 }
 
@@ -250,6 +257,33 @@ input::placeholder {
   color: #384050;
 }
 
-.featured-stars i {
+/* étoiles vertes alignées à droite comme sur la maquette */
+.featured-stars {
+  margin-top: 2px;
+  color: #82b864;         // vert de ta palette
   font-size: 0.9rem;
+}
+
+/* --------- MOBILE (maquette 375px) --------- */
+@media (max-width: 991.98px) {
+  .featured-section {
+    padding-bottom: 2.5rem;
+  }
+
+  .featured-card {
+    /* full width dans le container, plus haute comme sur la capture */
+    padding: 16px 18px;
+  }
+}
+
+/* --------- DESKTOP (3 cards alignées) --------- */
+@media (min-width: 992px) {
+  .featured-section .row {
+    /* pour que les 3 cards soient bien espacées */
+    row-gap: 1.5rem;
+  }
+
+  .featured-card {
+    height: 120px; /* approximatif pour approcher la maquette */
+  }
 }
