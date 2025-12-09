@@ -1,4 +1,5 @@
 import express from 'express';
+import { Op } from 'sequelize';
 import { Artisan, Specialty, Category } from '../models/index.js';
 
 const router = express.Router();
@@ -6,14 +7,19 @@ const router = express.Router();
 // GET /api/artisans?search=&categoryId=&specialtyId=&featured=true
 router.get('/', async (req, res) => {
   try {
-    const { search, categoryId, specialtyId, featured } = req.query;
+    const {
+      search,
+      categoryId,
+      specialtyId,
+      featured,
+    } = req.query;
 
     const where = {};
     if (featured === 'true') {
-      where.isFeatured = true;
+      where.is_featured = true;
     }
     if (search) {
-      where.name = { [Artisan.sequelize.Op.like]: `%${search}%` };
+      where.name = { [Op.like]: `%${search}%` };
     }
 
     const include = [
