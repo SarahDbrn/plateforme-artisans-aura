@@ -1,0 +1,318 @@
+// Variables globales (exemple)
+$primary: #0074c7;
+$secondary: #00497c;
+$background: #f1f8fc;
+
+// Style de base du body
+body {
+  background-color: $background;
+  font-family: sans-serif;
+  color: #384050;
+}
+
+.nav-link {
+  font-weight: 500;
+  cursor: pointer;
+
+  &.active {
+    text-decoration: underline;
+  }
+}
+
+input::placeholder {
+  font-style: italic;
+}
+
+// Footer
+/* ---------------------------
+   FOOTER LOGO (selon Figma)
+----------------------------*/
+
+.footer-logo {
+  height: 110px; /* taille desktop */
+  object-fit: contain;
+}
+
+/* Mobile/tablette */
+@media (max-width: 768px) {
+  .footer-logo {
+    display: none; /* faire disparaitre le logo sur la version mobile */
+  }
+}
+
+/* ---------------------------
+   HOME - fond général
+----------------------------*/
+
+.home {
+  background-color: #f1f8fc; // fond bleu très clair comme sur Figma
+}
+
+/* ---------------------------
+   HERO DESKTOP
+----------------------------*/
+
+.home-hero {
+  background-color: #0074c7; // bande bleue région
+}
+
+.home-hero-inner {
+  max-width: 760px;          // largeur du bloc texte comme sur ta maquette
+  margin: 0 auto;
+  padding: 48px 0 56px;      // hauteur du bandeau
+}
+
+.home-hero-title {
+  font-size: 1.9rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+   white-space: nowrap;
+}
+
+.home-hero-subtitle {
+  font-size: 1rem;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+/* Barre de recherche du hero */
+.home-hero-search-wrapper {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.home-hero-search {
+  max-width: 480px;
+  width: 100%;
+  border-radius: 999px;
+  background-color: #ffffff;
+  padding-inline: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+  .input-group-text {
+    border: none;
+  }
+
+  input {
+    border: none;
+    box-shadow: none;
+    font-size: 0.95rem;
+  }
+}
+
+/* ---------------------------
+   SEARCH MOBILE
+----------------------------*/
+
+.home-search-mobile {
+  background-color: #f1f8fc;
+
+  .home-mobile-search {
+    border-radius: 999px;
+    background-color: #ffffff;
+    padding-inline: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    .input-group-text {
+      border: none;
+    }
+
+    input {
+      border: none;
+      box-shadow: none;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+/* ---------------------------
+   Section "Comment trouver mon artisan ?"
+----------------------------*/
+
+.howto-section {
+  background-color: #f1f8fc; // gris/bleu très léger
+}
+
+.howto-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #00497c;
+}
+
+.howto-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.howto-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #0074c7;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.howto-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #00497c;
+}
+
+.howto-card-text {
+  font-size: 0.95rem;
+  margin: 0;
+  color: #384050;
+}
+
+/* Centrage et largeur max comme sur Figma */
+.howto-row {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Ajustement pour coller aux pastilles Figma */
+.howto-card {
+  align-items: flex-start; /* texte aligné à gauche */
+}
+
+@media (max-width: 767.98px) {
+  .howto-section {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .howto-card {
+    border-radius: 16px;
+  }
+}
+
+/* ---------------------------
+   Section "Les artisans du mois"
+----------------------------*/
+
+.featured-section {
+  background-color: #f1f8fc;
+}
+
+.featured-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #00497c;
+}
+
+/* Centrer la rangée comme sur Figma */
+.featured-row {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ---------- STYLE PAR DEFAUT = MOBILE (375px) ----------
+   → carte HORIZONTALE : avatar à gauche, texte + étoiles à droite
+--------------------------------------------------------- */
+
+.featured-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.featured-card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.featured-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background-color: #d9d9d9; // placeholder gris Figma
+  flex-shrink: 0;
+}
+
+/* texte en colonne + étoiles alignées à droite */
+.featured-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.featured-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #384050;
+}
+
+.featured-specialty-link {
+  font-size: 0.9rem;
+  color: #0074c7;
+  text-decoration: underline;
+}
+
+.featured-city {
+  font-size: 0.85rem;
+  color: #384050;
+}
+
+/* MO£BILE - étoiles vertes alignées à droite */
+.featured-stars {
+  margin-top: 4px;
+  align-self: flex-end;
+  color: #82b864;
+  font-size: 0.9rem;
+}
+
+/* ---------- DESKTOP (≥ 992px)
+   → carte VERTICALE : avatar + texte + étoiles centrés
+----------------------------------------------------- */
+
+@media (min-width: 992px) {
+  .featured-section {
+    padding-bottom: 3rem;
+  }
+
+  .featured-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 210px;    
+    padding: 24px 22px;
+  }
+
+  .featured-avatar {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .featured-content {
+    align-items: center;
+  }
+
+    .featured-stars {
+    align-self: center !important; /* recentre correctement */
+    margin-top: 8px !important;    /* légère marge comme sur la maquette */
+    position: static !important;   /* s’assurer qu’elle ne sort plus */
+  }
+
+  .featured-section .row {
+    row-gap: 1.5rem;
+  }
+}
