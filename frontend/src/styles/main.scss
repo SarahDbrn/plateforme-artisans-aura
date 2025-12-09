@@ -208,9 +208,9 @@ input::placeholder {
 }
 
 .featured-title {
-  font-size: 1.1rem;
+  font-size: 1.8rem;
   font-weight: 600;
-  color: #384050;
+  color: #00497c;
 }
 
 /* Centrer la rangée comme sur Figma */
@@ -271,20 +271,12 @@ input::placeholder {
   color: #384050;
 }
 
-/* étoiles vertes alignées à droite comme sur la maquette mobile */
+/* MO£BILE - étoiles vertes alignées à droite */
 .featured-stars {
   margin-top: 4px;
   align-self: flex-end;
   color: #82b864;
   font-size: 0.9rem;
-}
-
-/* ---------- TABLETTE / MOBILE LARGE ---------- */
-
-@media (max-width: 991.98px) {
-  .featured-section {
-    padding-bottom: 2.5rem;
-  }
 }
 
 /* ---------- DESKTOP (≥ 992px)
@@ -300,7 +292,7 @@ input::placeholder {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    height: 210px;           // hauteur proche de la maquette
+    min-height: 210px;    
     padding: 24px 22px;
   }
 
@@ -314,9 +306,10 @@ input::placeholder {
     align-items: center;
   }
 
-  .featured-stars {
-    align-self: center;
-    margin-top: 10px;
+    .featured-stars {
+    align-self: center !important; /* recentre correctement */
+    margin-top: 8px !important;    /* légère marge comme sur la maquette */
+    position: static !important;   /* s’assurer qu’elle ne sort plus */
   }
 
   .featured-section .row {
