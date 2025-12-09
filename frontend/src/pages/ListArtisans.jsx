@@ -31,7 +31,7 @@ function ListArtisans() {
     return stars;
   };
 
-  // Charger les catégories (une seule fois)
+  // Charger les catégories une seule fois
   useEffect(() => {
     async function fetchCategories() {
       try {
@@ -45,7 +45,7 @@ function ListArtisans() {
     fetchCategories();
   }, []);
 
-  // Mettre à jour la catégorie sélectionnée quand l’URL change (clic depuis le Header)
+  // Mettre à jour la catégorie quand l’URL change (clic depuis le header)
   useEffect(() => {
     const newParams = new URLSearchParams(location.search);
     const categoryFromURL = newParams.get('category') || '';
@@ -53,7 +53,7 @@ function ListArtisans() {
     setSelectedSpecialtyId('');
   }, [location.search]);
 
-  // Charger les artisans selon la catégorie / spécialité
+  // Charger les artisans selon catégorie / spécialité / recherche
   useEffect(() => {
     async function fetchArtisans() {
       setLoading(true);
@@ -61,6 +61,7 @@ function ListArtisans() {
         const data = await api.getArtisans({
           categoryId: selectedCategoryId || undefined,
           specialtyId: selectedSpecialtyId || undefined,
+          search: search || undefined,
         });
         setArtisans(data);
       } catch (error) {
@@ -71,19 +72,13 @@ function ListArtisans() {
     }
 
     fetchArtisans();
-  }, [selectedCategoryId, selectedSpecialtyId]);
+  }, [selectedCategoryId, selectedSpecialtyId, search]);
 
-  // Catégorie sélectionnée + ses spécialités (depuis /api/categories)
   const selectedCategory = categories.find(
     (cat) => cat.id === Number(selectedCategoryId),
   );
 
   const specialtiesForSelectedCategory = selectedCategory?.Specialties || [];
-
-  // Filtre de recherche textuelle (par nom)
-  const filteredArtisans = artisans.filter((artisan) =>
-    artisan.name.toLowerCase().includes(search.toLowerCase()),
-  );
 
   return (
     <main className="list-page py-4 py-lg-5">
@@ -132,7 +127,7 @@ function ListArtisans() {
                 </select>
               </div>
 
-              {/* Filtre spécialité, dépend de la catégorie */}
+              {/* Filtre spécialité */}
               <div className="mb-3">
                 <label className="form-label" htmlFor="filter-specialty">
                   Spécialité
@@ -152,8 +147,6 @@ function ListArtisans() {
                   ))}
                 </select>
               </div>
-
-              {/* Tu pourras ajouter d’autres filtres ici (note, ville, etc.) */}
             </section>
           </div>
 
@@ -163,12 +156,12 @@ function ListArtisans() {
 
             {loading && <p>Chargement des artisans...</p>}
 
-            {!loading && !filteredArtisans.length && (
+            {!loading && !artisans.length && (
               <p>Aucun artisan ne correspond à votre recherche.</p>
             )}
 
             <div className="row g-3">
-              {filteredArtisans.map((artisan) => (
+              {artisans.map((artisan) => (
                 <div key={artisan.id} className="col-12 col-md-6">
                   <Link
                     to={`/artisan/${artisan.id}`}
