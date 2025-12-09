@@ -41,6 +41,92 @@ input::placeholder {
 }
 
 /* ---------------------------
+   HOME - fond général
+----------------------------*/
+
+.home {
+  background-color: #f1f8fc; // fond bleu très clair comme sur Figma
+}
+
+/* ---------------------------
+   HERO DESKTOP
+----------------------------*/
+
+.home-hero {
+  background-color: #0074c7; // bande bleue région
+}
+
+.home-hero-inner {
+  max-width: 760px;          // largeur du bloc texte comme sur ta maquette
+  margin: 0 auto;
+  padding: 48px 0 56px;      // hauteur du bandeau
+}
+
+.home-hero-title {
+  font-size: 1.9rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.home-hero-subtitle {
+  font-size: 1rem;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+/* Barre de recherche du hero */
+.home-hero-search-wrapper {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.home-hero-search {
+  max-width: 480px;
+  width: 100%;
+  border-radius: 999px;
+  background-color: #ffffff;
+  padding-inline: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+  .input-group-text {
+    border: none;
+  }
+
+  input {
+    border: none;
+    box-shadow: none;
+    font-size: 0.95rem;
+  }
+}
+
+/* ---------------------------
+   SEARCH MOBILE
+----------------------------*/
+
+.home-search-mobile {
+  background-color: #f1f8fc;
+
+  .home-mobile-search {
+    border-radius: 999px;
+    background-color: #ffffff;
+    padding-inline: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    .input-group-text {
+      border: none;
+    }
+
+    input {
+      border: none;
+      box-shadow: none;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+/* ---------------------------
    Section "Comment trouver mon artisan ?"
 ----------------------------*/
 
@@ -88,4 +174,26 @@ input::placeholder {
   font-size: 0.95rem;
   margin: 0;
   color: #384050;
+}
+
+/* Centrage et largeur max comme sur Figma */
+.howto-row {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Ajustement pour coller aux pastilles Figma */
+.howto-card {
+  align-items: flex-start; /* texte aligné à gauche */
+}
+
+@media (max-width: 767.98px) {
+  .howto-section {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .howto-card {
+    border-radius: 16px;
+  }
 }

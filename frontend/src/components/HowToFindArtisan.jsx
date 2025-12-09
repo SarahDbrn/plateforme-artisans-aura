@@ -25,11 +25,12 @@ function HowToFindArtisan() {
   return (
     <section className="howto-section py-5">
       <div className="container">
-        <h2 className="howto-title mb-4">
+        <h2 className="howto-title mb-4 text-center">
           Comment trouver mon artisan&nbsp;?
         </h2>
 
-        <div className="row g-3 g-md-4">
+        {/* rangée centrée comme sur Figma */}
+        <div className="row g-3 g-md-4 justify-content-center howto-row">
           {steps.map((step) => (
             <div key={step.number} className="col-12 col-md-6 col-lg-3">
               <div className="howto-card h-100">
@@ -52,3 +53,4 @@ function HowToFindArtisan() {
 }
 
 export default HowToFindArtisan;
+
