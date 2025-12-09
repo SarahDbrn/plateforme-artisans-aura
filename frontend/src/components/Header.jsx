@@ -1,9 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logoRegion from '../assets/logo-region.png';
+import { api } from '../services/api';
+
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const data = await api.getCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des catégories :', error);
+      }
+    }
+
+    fetchCategories();
+  }, []);
 
   return (
     <header
@@ -36,12 +52,19 @@ function Header() {
         {/* NAVIGATION MOBILE (si ouvert) */}
         {menuOpen && (
           <nav className="d-lg-none mt-3">
-            <ul className="list-unstyled d-flex flex-column gap-2">
-              <li><NavLink className="nav-link" to="/artisans">Bâtiment</NavLink></li>
-              <li><NavLink className="nav-link" to="/artisans">Services</NavLink></li>
-              <li><NavLink className="nav-link" to="/artisans">Fabrication</NavLink></li>
-              <li><NavLink className="nav-link" to="/artisans">Alimentation</NavLink></li>
-            </ul>
+              <ul className="list-unstyled d-flex flex-column gap-2">
+                {categories.map((category) => (
+                <li key={category.id}>
+                  <NavLink
+                  className="nav-link"
+                  to={`/artisans?category=${category.id}`}
+                  onClick={() => setMenuOpen(false)}
+                  >
+                  {category.name}
+                  </NavLink>
+                </li>
+                ))}
+              </ul>
           </nav>
         )}
 
@@ -74,10 +97,16 @@ function Header() {
           {/* Menu catégories */}
           <nav>
             <ul className="d-flex gap-5 list-unstyled m-0">
-              <li><NavLink className="nav-link text-primary" to="/artisans">Bâtiment</NavLink></li>
-              <li><NavLink className="nav-link text-primary" to="/artisans">Services</NavLink></li>
-              <li><NavLink className="nav-link text-primary" to="/artisans">Fabrication</NavLink></li>
-              <li><NavLink className="nav-link text-primary" to="/artisans">Alimentation</NavLink></li>
+              {categories.map((category) => (
+              <li key={category.id}>
+                <NavLink
+                className="nav-link text-primary"
+                to={`/artisans?category=${category.id}`}
+                >
+                {category.name}
+                </NavLink>
+              </li>
+              ))}
             </ul>
           </nav>
 
