@@ -105,3 +105,4 @@ function FeaturedArtisans() {
 }
 
 export default FeaturedArtisans;
+x
