@@ -19,7 +19,7 @@ function Header() {
             <img
               src={logoRegion}
               alt="Logo région AURA"
-              style={{ height: '40px' }}
+              style={{ height: '50px' }}
             />
           </Link>
 
@@ -67,7 +67,7 @@ function Header() {
             <img
               src={logoRegion}
               alt="Logo région AURA"
-              style={{ height: '55px' }}
+              style={{ height: '100px' }}
             />
           </Link>
 
