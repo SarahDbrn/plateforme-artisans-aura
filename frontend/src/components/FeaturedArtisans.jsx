@@ -1,42 +1,68 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { api } from '../services/api';
 
 function FeaturedArtisans() {
-  const artisans = [
-    {
-      id: 1,
-      name: 'Atelier Dubois',
-      specialty: 'Menuiserie',
-      city: 'Lyon (69)',
-      rating: 5,
-    },
-    {
-      id: 2,
-      name: 'Services & Co',
-      specialty: 'Plomberie',
-      city: 'Grenoble (38)',
-      rating: 5,
-    },
-    {
-      id: 3,
-      name: 'Boulangerie Rondeau',
-      specialty: 'Boulangerie',
-      city: 'Pontoise (95)',
-      rating: 4,
-    },
-  ];
+  const [artisans, setArtisans] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const renderStars = (rating) => {
     const stars = [];
+    const rounded = Math.round(rating); // au cas où rating = 4.5
+
     for (let i = 1; i <= 5; i += 1) {
       stars.push(
         <i
           key={i}
-          className={`bi ${i <= rating ? 'bi-star-fill' : 'bi-star'}`}
+          className={`bi ${i <= rounded ? 'bi-star-fill' : 'bi-star'}`}
         />,
       );
     }
     return stars;
   };
+
+  useEffect(() => {
+    async function fetchFeatured() {
+      try {
+        const data = await api.getArtisans({ featured: true });
+        setArtisans(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des artisans du mois :', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchFeatured();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="featured-section pb-5">
+        <div className="container">
+          <h2 className="featured-title text-center mb-4">
+            Les artisans du mois
+          </h2>
+          <p className="text-center">Chargement des artisans...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (!artisans.length) {
+    return (
+      <section className="featured-section pb-5">
+        <div className="container">
+          <h2 className="featured-title text-center mb-4">
+            Les artisans du mois
+          </h2>
+          <p className="text-center">
+            Aucun artisan du mois n’est disponible pour le moment.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="featured-section pb-5">
@@ -59,7 +85,7 @@ function FeaturedArtisans() {
 
                   <p className="featured-specialty mb-0">
                     <span className="featured-specialty-link">
-                      {artisan.specialty}
+                      {artisan.Specialty?.name}
                     </span>
                   </p>
 
