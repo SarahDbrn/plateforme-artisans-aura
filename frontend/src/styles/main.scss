@@ -203,7 +203,7 @@ input::placeholder {
 ----------------------------*/
 
 .featured-section {
-  background-color: #f1f8fc; // même fond que la section étapes
+  background-color: #f1f8fc;
 }
 
 .featured-title {
@@ -212,14 +212,23 @@ input::placeholder {
   color: #384050;
 }
 
-/* CARD – commune mobile & desktop */
+/* Centrer la rangée comme sur Figma */
+.featured-row {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ---------- STYLE PAR DEFAUT = MOBILE (375px) ----------
+   → carte HORIZONTALE : avatar à gauche, texte + étoiles à droite
+--------------------------------------------------------- */
+
 .featured-card {
   display: flex;
   align-items: center;
   gap: 14px;
   background-color: #ffffff;
   border-radius: 16px;
-  padding: 14px 16px;
+  padding: 16px 18px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   cursor: pointer;
 }
@@ -229,15 +238,19 @@ input::placeholder {
 }
 
 .featured-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
   background-color: #d9d9d9; // placeholder gris Figma
   flex-shrink: 0;
 }
 
+/* texte en colonne + étoiles alignées à droite */
 .featured-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .featured-name {
@@ -248,7 +261,7 @@ input::placeholder {
 
 .featured-specialty-link {
   font-size: 0.9rem;
-  color: #0074c7;         // bleu lien
+  color: #0074c7;
   text-decoration: underline;
 }
 
@@ -257,33 +270,55 @@ input::placeholder {
   color: #384050;
 }
 
-/* étoiles vertes alignées à droite comme sur la maquette */
+/* étoiles vertes alignées à droite comme sur la maquette mobile */
 .featured-stars {
-  margin-top: 2px;
-  color: #82b864;         // vert de ta palette
+  margin-top: 4px;
+  align-self: flex-end;
+  color: #82b864;
   font-size: 0.9rem;
 }
 
-/* --------- MOBILE (maquette 375px) --------- */
+/* ---------- TABLETTE / MOBILE LARGE ---------- */
+
 @media (max-width: 991.98px) {
   .featured-section {
     padding-bottom: 2.5rem;
   }
-
-  .featured-card {
-    /* full width dans le container, plus haute comme sur la capture */
-    padding: 16px 18px;
-  }
 }
 
-/* --------- DESKTOP (3 cards alignées) --------- */
+/* ---------- DESKTOP (≥ 992px)
+   → carte VERTICALE : avatar + texte + étoiles centrés
+----------------------------------------------------- */
+
 @media (min-width: 992px) {
-  .featured-section .row {
-    /* pour que les 3 cards soient bien espacées */
-    row-gap: 1.5rem;
+  .featured-section {
+    padding-bottom: 3rem;
   }
 
   .featured-card {
-    height: 120px; /* approximatif pour approcher la maquette */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 210px;           // hauteur proche de la maquette
+    padding: 24px 22px;
+  }
+
+  .featured-avatar {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .featured-content {
+    align-items: center;
+  }
+
+  .featured-stars {
+    align-self: center;
+    margin-top: 10px;
+  }
+
+  .featured-section .row {
+    row-gap: 1.5rem;
   }
 }

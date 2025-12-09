@@ -45,7 +45,7 @@ function FeaturedArtisans() {
           Les artisans du mois
         </h2>
 
-        <div className="row g-3">
+        <div className="row g-3 featured-row">
           {artisans.map((artisan) => (
             <div key={artisan.id} className="col-12 col-lg-4">
               <Link
