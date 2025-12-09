@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import HowToFindArtisan from '../components/HowToFindArtisan';
+import FeaturedArtisans from '../components/FeaturedArtisans';
+
 
 function Home() {
   return (
@@ -35,6 +37,10 @@ function Home() {
 
       {/* Section "Comment trouver mon artisan ?" */}
       <HowToFindArtisan />
+
+      {/* Section "Artisans du mois" */}
+      <FeaturedArtisans />
+
     </main>
   );
 }
