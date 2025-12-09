@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { api } from '../services/api';
 
 function ListArtisans() {
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+  const initialCategoryFromURL = params.get('category') || '';
+
   const [search, setSearch] = useState('');
   const [artisans, setArtisans] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(initialCategoryFromURL);
+  const [selectedSpecialtyId, setSelectedSpecialtyId] = useState('');
 
   const renderStars = (rating) => {
     const stars = [];
@@ -22,10 +31,37 @@ function ListArtisans() {
     return stars;
   };
 
+  // Charger les catégories (une seule fois)
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const data = await api.getCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des catégories :', error);
+      }
+    }
+
+    fetchCategories();
+  }, []);
+
+  // Mettre à jour la catégorie sélectionnée quand l’URL change (clic depuis le Header)
+  useEffect(() => {
+    const newParams = new URLSearchParams(location.search);
+    const categoryFromURL = newParams.get('category') || '';
+    setSelectedCategoryId(categoryFromURL);
+    setSelectedSpecialtyId('');
+  }, [location.search]);
+
+  // Charger les artisans selon la catégorie / spécialité
   useEffect(() => {
     async function fetchArtisans() {
+      setLoading(true);
       try {
-        const data = await api.getArtisans();
+        const data = await api.getArtisans({
+          categoryId: selectedCategoryId || undefined,
+          specialtyId: selectedSpecialtyId || undefined,
+        });
         setArtisans(data);
       } catch (error) {
         console.error('Erreur lors du chargement des artisans :', error);
@@ -35,8 +71,16 @@ function ListArtisans() {
     }
 
     fetchArtisans();
-  }, []);
+  }, [selectedCategoryId, selectedSpecialtyId]);
 
+  // Catégorie sélectionnée + ses spécialités (depuis /api/categories)
+  const selectedCategory = categories.find(
+    (cat) => cat.id === Number(selectedCategoryId),
+  );
+
+  const specialtiesForSelectedCategory = selectedCategory?.Specialties || [];
+
+  // Filtre de recherche textuelle (par nom)
   const filteredArtisans = artisans.filter((artisan) =>
     artisan.name.toLowerCase().includes(search.toLowerCase()),
   );
@@ -62,10 +106,58 @@ function ListArtisans() {
         </section>
 
         <div className="row">
-          {/* filtres à gauche : inchangés pour l’instant */}
-          {/* ... ton code existant de filters-card ... */}
+          {/* COLONNE FILTRES */}
+          <div className="col-12 col-lg-4 mb-4 mb-lg-0">
+            <section className="filters-card p-3 p-lg-4">
+              {/* Filtre catégorie */}
+              <div className="mb-3">
+                <label className="form-label" htmlFor="filter-category">
+                  Catégorie
+                </label>
+                <select
+                  id="filter-category"
+                  className="form-select"
+                  value={selectedCategoryId}
+                  onChange={(e) => {
+                    setSelectedCategoryId(e.target.value);
+                    setSelectedSpecialtyId('');
+                  }}
+                >
+                  <option value="">Toutes les catégories</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-          {/* résultats */}
+              {/* Filtre spécialité, dépend de la catégorie */}
+              <div className="mb-3">
+                <label className="form-label" htmlFor="filter-specialty">
+                  Spécialité
+                </label>
+                <select
+                  id="filter-specialty"
+                  className="form-select"
+                  value={selectedSpecialtyId}
+                  onChange={(e) => setSelectedSpecialtyId(e.target.value)}
+                  disabled={!selectedCategoryId}
+                >
+                  <option value="">Toutes les spécialités</option>
+                  {specialtiesForSelectedCategory.map((specialty) => (
+                    <option key={specialty.id} value={specialty.id}>
+                      {specialty.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Tu pourras ajouter d’autres filtres ici (note, ville, etc.) */}
+            </section>
+          </div>
+
+          {/* COLONNE RÉSULTATS */}
           <div className="col-12 col-lg-8">
             <h2 className="list-results-title mb-3">Résultats :</h2>
 
