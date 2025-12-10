@@ -61,4 +61,42 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// -----------------------------------
+// POST /api/artisans/:id/contact
+// -----------------------------------
+router.post('/:id/contact', async (req, res) => {
+  const artisanId = req.params.id;
+  const { name, email, subject, message } = req.body;
+
+  if (!name || !email || !subject || !message) {
+    return res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
+  }
+
+  try {
+    // vérifier que l’artisan existe
+    const artisan = await Artisan.findByPk(artisanId);
+    if (!artisan) {
+      return res.status(404).json({ error: 'Artisan non trouvé.' });
+    }
+
+    // 👉 Pour le devoir : on simule l’envoi
+    console.log('📩 Nouveau message de contact :');
+    console.log('Artisan :', artisan.name, `(id: ${artisanId})`);
+    console.log('De      :', name, `<${email}>`);
+    console.log('Objet   :', subject);
+    console.log('Message :', message);
+
+    return res.status(201).json({
+      success: true,
+      message: 'Message bien reçu par la plateforme.',
+    });
+  } catch (err) {
+    console.error('Erreur lors du traitement du contact :', err);
+    return res
+      .status(500)
+      .json({ error: "Erreur serveur lors de l'envoi du message." });
+  }
+});
+
+
 module.exports = router;
