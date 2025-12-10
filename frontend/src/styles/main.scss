@@ -1,23 +1,20 @@
-// Variables globales (exemple)
+// ===============================
+// VARIABLES DESIGN SYSTEM
+// ===============================
 $primary: #0074c7;
-$secondary: #00497c;
-$background: #f1f8fc;
+$primary-dark: #00497c;
+$bg-soft: #f1f8fc;
+$text-main: #384050;
+$red: #cd2c2e;
+$green: #82b864;
+$border-soft: #c5d6e8;
 
-// Style de base du body
-body {
-  background-color: $background;
-  font-family: 'Graphik', sans-serif;
-  color: #384050;
-}
-
-/* Importation de la police Graphik */
+// ===============================
+// FONT GRAPHIK
+// ===============================
 @font-face {
   font-family: 'Graphik';
-  src: url('../assets/fonts/Graphik-Bold-Trial.woff2') format('woff2'),
-       url('../assets/fonts/Graphik-BoldItalic-Trial.woff2') format('woff2'),
-       url('../assets/fonts/Graphik-RegularItalic-Trial.woff2') format('woff2'),
-       url('../assets/fonts/Graphik-Semibold-Trial.woff2') format('woff2'),
-       url('../assets/fonts/Graphik-SemiboldItalic-Trial.woff2') format('woff2');
+  src: url('../assets/fonts/Graphik-Regular-Trial.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -25,14 +22,706 @@ body {
 
 @font-face {
   font-family: 'Graphik';
-  src: url('../assets/fonts/Graphik-Bold-Trial.woff2') format('woff2'),
-       url('../assets/fonts/Graphik-BoldItalic-Trial.woff2') format('woff2'),
-       url('../assets/fonts/Graphik-RegularItalic-Trial.woff2') format('woff2'),
-       url('../assets/fonts/Graphik-Semibold-Trial.woff2') format('woff2'),
-       url('../assets/fonts/Graphik-SemiboldItalic-Trial.woff2') format('woff2');
-  font-weight: 500;
+  src: url('../assets/fonts/Graphik-Semibold-Trial.woff2') format('woff2');
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
-/* Ajuster selon les styles que tu possèdes (Bold, Semibold, etc.) */
+// ===============================
+// BASE
+// ===============================
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: $bg-soft;
+  font-family: 'Graphik', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  color: $text-main;
+}
+
+main {
+  min-height: 60vh;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 600;
+  color: $primary-dark;
+}
+
+// Titres proches de la maquette
+.h1-hero {
+  font-size: 2.6rem; // 42px approx
+  font-weight: 600;
+}
+
+.h2-section {
+  font-size: 2rem; // 32px approx
+  font-weight: 600;
+}
+
+// ===============================
+// HEADER
+// ===============================
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.site-header .nav-link {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $primary-dark;
+
+  &.active {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+.site-header .search-pill {
+  border-radius: 999px;
+  border: 1px solid $primary;
+  padding-inline: 0.75rem;
+}
+
+.site-header .search-pill .form-control {
+  border: none;
+  box-shadow: none;
+  font-size: 0.9rem;
+}
+
+.site-header .search-pill .form-control:focus {
+  box-shadow: none;
+}
+
+.site-header .search-icon {
+  color: $primary;
+}
+
+// ===============================
+// HERO HOME (DESKTOP)
+// ===============================
+.home {
+  background-color: $bg-soft;
+}
+
+.home-hero {
+  background-color: $primary;
+  color: #ffffff;
+  padding-block: 3rem 4rem;
+}
+
+.home-hero-inner {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-hero-title {
+  color: #ffffff;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.home-hero-subtitle {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.home-hero-search-wrapper {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.home-hero-search {
+  border-radius: 999px;
+  background-color: #ffffff;
+  padding-inline: 0.75rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+}
+
+.home-hero-search .input-group-text {
+  border: none;
+  background: transparent;
+}
+
+.home-hero-search .form-control {
+  border: none;
+  box-shadow: none;
+}
+
+.home-hero-search .form-control:focus {
+  box-shadow: none;
+}
+
+// En mobile : pas de gros hero bleu, juste une petite barre
+@media (max-width: 991.98px) {
+  .home-hero {
+    display: none;
+  }
+}
+
+// ===============================
+// SECTION "COMMENT TROUVER MON ARTISAN ?"
+// ===============================
+.howto-section {
+  padding-block: 2.5rem 2.5rem;
+}
+
+.howto-title {
+  @extend .h2-section;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.howto-row {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.howto-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.2rem 1.1rem;
+  border: 1px solid $border-soft;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.howto-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background-color: $primary;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.howto-card-title {
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.howto-card-text {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+// ===============================
+// "ARTISANS DU MOIS"
+// ===============================
+.featured-section {
+  padding-bottom: 3rem;
+}
+
+.featured-title {
+  @extend .h2-section;
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+.featured-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid $border-soft;
+  padding: 0.9rem 1rem;
+  gap: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  color: $text-main;
+}
+
+.featured-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  background-color: #d9d9d9;
+  flex-shrink: 0;
+}
+
+.featured-content {
+  min-width: 0;
+}
+
+.featured-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.featured-specialty {
+  font-size: 0.85rem;
+  margin-bottom: 0.1rem;
+}
+
+.featured-specialty-link {
+  color: $primary;
+}
+
+.featured-city {
+  font-size: 0.85rem;
+}
+
+.featured-stars {
+  font-size: 0.85rem;
+  color: $green;
+}
+
+// ===============================
+// LISTE DES ARTISANS
+// ===============================
+.list-page {
+  background-color: $bg-soft;
+}
+
+.list-page-inner {
+  max-width: 1040px;
+}
+
+.list-search-input {
+  max-width: 520px;
+  margin: 0 auto;
+  border-radius: 12px;
+  background-color: #ffffff;
+  padding-inline: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  .input-group-text {
+    border: none;
+    background: transparent;
+
+    i {
+      color: #8a99b3;
+    }
+  }
+
+  .form-control {
+    border: none;
+    box-shadow: none;
+    font-size: 0.95rem;
+  }
+
+  .form-control:focus {
+    box-shadow: none;
+  }
+}
+
+// Carte filtres
+.filters-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid $border-soft;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  .form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $text-main;
+  }
+
+  .form-select {
+    font-size: 0.9rem;
+    height: 44px;
+    border-radius: 6px;
+    border: 1px solid $primary;
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 0.15rem rgba(0, 116, 199, 0.18);
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .filters-card {
+    position: sticky;
+    top: 110px;
+  }
+}
+
+.list-results-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: $primary-dark;
+  text-align: center;
+
+  @media (min-width: 992px) {
+    text-align: left;
+  }
+}
+
+// Boutons filtres
+.filters-actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.list-btn-primary,
+.list-btn-secondary {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  border: none;
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.list-btn-primary {
+  background-color: $primary;
+
+  &:hover {
+    background-color: darken($primary, 5%);
+  }
+}
+
+.list-btn-secondary {
+  background-color: $primary-dark;
+
+  &:hover {
+    background-color: darken($primary-dark, 5%);
+  }
+}
+
+// Carte résultat artisan
+.artisan-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid $border-soft;
+  padding: 0.9rem 1rem;
+  color: $text-main;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.artisan-card-left {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.artisan-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  background-color: #d9d9d9;
+  flex-shrink: 0;
+}
+
+.artisan-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.artisan-stars {
+  font-size: 0.85rem;
+  color: $green;
+
+  .bi {
+    margin-right: 1px;
+  }
+}
+
+.artisan-specialty {
+  font-size: 0.85rem;
+}
+
+.artisan-specialty-link {
+  color: $primary;
+}
+
+.artisan-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.artisan-city {
+  font-size: 0.85rem;
+}
+
+.artisan-chevron {
+  font-size: 1rem;
+  color: #8a99b3;
+}
+
+@media (max-width: 767.98px) {
+  .list-page {
+    padding-bottom: 2.5rem;
+  }
+
+  .filters-card {
+    margin-bottom: 1.5rem;
+  }
+
+  .artisan-card {
+    align-items: flex-start;
+  }
+}
+
+// ===============================
+// FICHE ARTISAN
+// ===============================
+.artisan-page {
+  background-color: $bg-soft;
+}
+
+.artisan-row {
+  align-items: center;
+}
+
+.artisan-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
+  background-color: #d9d9d9;
+}
+
+.artisan-name-detail {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: $primary-dark;
+}
+
+.artisan-stars-detail {
+  color: $green;
+  font-size: 1rem;
+
+  .bi {
+    margin-right: 2px;
+  }
+}
+
+.artisan-meta {
+  font-size: 0.95rem;
+  color: $text-main;
+}
+
+.artisan-specialty-link,
+.artisan-location-link {
+  color: $primary;
+}
+
+.artisan-about-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: $primary-dark;
+}
+
+.artisan-about-text {
+  font-size: 0.95rem;
+}
+
+.artisan-website-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.artisan-website-link {
+  color: $primary;
+  text-decoration: underline;
+}
+
+// Carte formulaire
+.artisan-contact-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid $border-soft;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+}
+
+.artisan-contact-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.artisan-contact-intro {
+  font-size: 0.9rem;
+}
+
+.artisan-contact-card .form-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.artisan-contact-card .form-control {
+  font-size: 0.9rem;
+  border-radius: 8px;
+  background-color: $bg-soft;
+}
+
+.artisan-contact-card .form-control:focus {
+  border-color: $primary;
+  box-shadow: 0 0 0 0.15rem rgba(0, 116, 199, 0.18);
+}
+
+.artisan-contact-submit {
+  background-color: $green;
+  border-color: $green;
+  border-radius: 8px;
+  padding-inline: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+
+  &:hover {
+    background-color: darken($green, 5%);
+    border-color: darken($green, 5%);
+  }
+}
+
+/// ===============================
+// PAGE 404
+// ===============================
+.notfound-page {
+  background-color: $bg-soft;
+  min-height: calc(100vh - 180px); // hauteur visible en tenant compte du header + footer
+  display: flex;
+  align-items: center;
+}
+
+.notfound-page .container {
+  max-width: 960px;
+}
+
+/* Carte centrale blanche */
+.notfound-card {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2.5rem 2rem 3rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Rond rouge avec icône */
+.notfound-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 6px solid $red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+
+  i {
+    font-size: 3rem;
+    color: $red;
+  }
+}
+
+/* Titre "Page non trouvée" */
+.notfound-title {
+  font-size: 1.9rem; // proche du H2 Figma
+  font-weight: 600;
+  color: $primary-dark;
+  margin-bottom: 0.9rem;
+}
+
+/* Texte explicatif */
+.notfound-text {
+  font-size: 0.98rem;
+  color: $text-main;
+  max-width: 420px;
+  margin: 0 auto 2rem;
+}
+
+/* Bouton "Retour à l'accueil" */
+.notfound-btn {
+  border-radius: 999px;
+  padding-inline: 2.2rem;
+  padding-block: 0.6rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background-color: $primary;
+  border-color: $primary;
+
+  &:hover {
+    background-color: darken($primary, 5%);
+    border-color: darken($primary, 5%);
+  }
+}
+
+/* Ajustements mobile */
+@media (max-width: 575.98px) {
+  .notfound-card {
+    padding: 2rem 1.25rem 2.5rem;
+  }
+
+  .notfound-icon {
+    width: 96px;
+    height: 96px;
+    border-width: 5px;
+    margin-bottom: 1.5rem;
+
+    i {
+      font-size: 2.4rem;
+    }
+  }
+
+  .notfound-title {
+    font-size: 1.6rem;
+  }
+
+  .notfound-text {
+    font-size: 0.94rem;
+  }
+}
+
+
+// ===============================
+// FOOTER
+// ===============================
+.site-footer {
+  background-color: $primary;
+  color: #ffffff;
+}
+
+.footer-logo {
+  max-height: 100px;
+}
+
+// Petit rappel pour liens du footer
+.site-footer a {
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}

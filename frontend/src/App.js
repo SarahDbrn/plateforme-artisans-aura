@@ -9,19 +9,24 @@ import Footer from './components/Footer';
 function App() {
   return (
     <Router>
-      {/* Header commun à toutes les pages */}
       <Header />
 
-      {/* Contenu des pages */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/artisans" element={<ListArtisans />} />
         <Route path="/artisan/:id" element={<ArtisanPage />} />
+
+        {/* 🔽 Tous les liens utiles du footer renvoient à la 404 */}
+        <Route path="/mentions-legales" element={<NotFound />} />
+        <Route path="/donnees-personnelles" element={<NotFound />} />
+        <Route path="/accessibilite" element={<NotFound />} />
+        <Route path="/cookies" element={<NotFound />} />
+
+        {/* Route catch-all */}
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      {/* Footer commun à toutes les pages*/}
-      <Footer/>
+      <Footer />
     </Router>
   );
 }
