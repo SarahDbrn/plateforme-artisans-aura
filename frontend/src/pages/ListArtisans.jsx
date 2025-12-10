@@ -5,23 +5,34 @@ import { fetchCategories, fetchArtisans } from '../services/api';
 function ListArtisans() {
   const location = useLocation();
 
-  // On lit les paramètres de l’URL au premier rendu
+  // Lecture de la recherche initiale dans l'URL (?search=...)
   const params = new URLSearchParams(location.search);
-  const initialCategoryFromURL = params.get('category') || '';
   const initialSearchFromURL = params.get('search') || '';
 
-  const [search, setSearch] = useState(initialSearchFromURL);
+  // 🎯 États du formulaire (ce qu’on voit dans les inputs)
+  const [searchInput, setSearchInput] = useState(initialSearchFromURL);
+  const [nameOrderInput, setNameOrderInput] = useState('');
+  const [noteOrderInput, setNoteOrderInput] = useState('');
+  const [specialtyInput, setSpecialtyInput] = useState('');
+  const [locationInput, setLocationInput] = useState('');
+
+  // 🎯 États appliqués aux résultats (seulement après clic sur "Rechercher")
+  const [appliedFilters, setAppliedFilters] = useState({
+    search: initialSearchFromURL,
+    nameOrder: '',
+    noteOrder: '',
+    specialtyId: '',
+    location: '',
+  });
+
   const [artisans, setArtisans] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(initialCategoryFromURL);
-  const [selectedSpecialtyId, setSelectedSpecialtyId] = useState('');
-
+  // ⭐ Affichage des étoiles
   const renderStars = (rating) => {
     const stars = [];
     const rounded = Math.round(rating);
-
     for (let i = 1; i <= 5; i += 1) {
       stars.push(
         <i
@@ -33,12 +44,13 @@ function ListArtisans() {
     return stars;
   };
 
-  // Charger les catégories une seule fois
+  // 1) Charger les catégories (pour les spécialités de la DB)
   useEffect(() => {
     async function loadCategories() {
       try {
         const data = await fetchCategories();
         setCategories(data);
+        console.log('Catégories depuis API :', data);
       } catch (error) {
         console.error('Erreur lors du chargement des catégories :', error);
       }
@@ -47,28 +59,28 @@ function ListArtisans() {
     loadCategories();
   }, []);
 
-  // Mettre à jour la catégorie ET la recherche quand l’URL change (clic depuis le header, back/forward…)
+  // 2) Si l’URL change (ex: ?search=...), on met à jour la recherche
   useEffect(() => {
     const newParams = new URLSearchParams(location.search);
-    const categoryFromURL = newParams.get('category') || '';
     const searchFromURL = newParams.get('search') || '';
 
-    setSelectedCategoryId(categoryFromURL);
-    setSelectedSpecialtyId('');
-    setSearch(searchFromURL);
+    setSearchInput(searchFromURL);
+    setAppliedFilters((prev) => ({
+      ...prev,
+      search: searchFromURL,
+    }));
   }, [location.search]);
 
-  // Charger les artisans selon catégorie / spécialité / recherche
+  // 3) Charger les artisans en fonction de la recherche APPLIQUÉE
   useEffect(() => {
     async function loadArtisans() {
       setLoading(true);
       try {
         const data = await fetchArtisans({
-          categoryId: selectedCategoryId || undefined,
-          specialtyId: selectedSpecialtyId || undefined,
-          search: search || undefined,
+          search: appliedFilters.search || undefined,
         });
         setArtisans(data);
+        console.log('Artisans depuis API :', data);
       } catch (error) {
         console.error('Erreur lors du chargement des artisans :', error);
       } finally {
@@ -77,19 +89,106 @@ function ListArtisans() {
     }
 
     loadArtisans();
-  }, [selectedCategoryId, selectedSpecialtyId, search]);
+  }, [appliedFilters.search]);
 
-  const selectedCategory = categories.find(
-    (cat) => cat.id === Number(selectedCategoryId),
+  // 4) Construire la liste des spécialités
+
+  // a) Depuis les catégories (DB)
+  const specialtiesFromCategories = Array.from(
+    new Map(
+      categories
+        .flatMap((cat) => cat.Specialties || cat.specialties || [])
+        .map((spec) => [spec.id, spec]) // Map pour éviter les doublons
+    ).values()
   );
 
-  // Attention : selon ce que renvoie l’API, il faudra peut-être adapter la clé (Specialties)
-  const specialtiesForSelectedCategory = selectedCategory?.Specialties || [];
+  // b) Depuis les artisans (fallback)
+  const specialtiesFromArtisans = Array.from(
+    new Map(
+      artisans
+        .filter((a) => a.Specialty)
+        .map((a) => [a.Specialty.id, a.Specialty])
+    ).values()
+  );
+
+  // c) On choisit : DB en priorité, sinon fallback artisans
+  let allSpecialties = specialtiesFromCategories;
+  if (!allSpecialties.length) {
+    allSpecialties = specialtiesFromArtisans;
+  }
+
+  allSpecialties.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+
+  // 5) Localisations à partir des artisans
+  const allLocations = Array.from(
+    new Set(
+      artisans
+        .map((a) => a.city)
+        .filter(Boolean)
+    )
+  ).sort((a, b) => a.localeCompare(b, 'fr'));
+
+  // 6) Appliquer filtres + tri (uniquement d’après appliedFilters)
+  const processedArtisans = [...artisans]
+    .filter((a) => {
+      if (appliedFilters.specialtyId && a.Specialty?.id !== Number(appliedFilters.specialtyId)) {
+        return false;
+      }
+      if (appliedFilters.location && a.city !== appliedFilters.location) {
+        return false;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (appliedFilters.noteOrder === 'best') {
+        return b.rating - a.rating;
+      }
+      if (appliedFilters.noteOrder === 'worst') {
+        return a.rating - b.rating;
+      }
+
+      if (appliedFilters.nameOrder === 'az') {
+        return a.name.localeCompare(b.name, 'fr');
+      }
+      if (appliedFilters.nameOrder === 'za') {
+        return b.name.localeCompare(a.name, 'fr');
+      }
+
+      return 0;
+    });
+
+  // 7) Bouton "Rechercher" → applique les filtres
+  const handleApplyFilters = () => {
+    setAppliedFilters({
+      search: searchInput,
+      nameOrder: nameOrderInput,
+      noteOrder: noteOrderInput,
+      specialtyId: specialtyInput,
+      location: locationInput,
+    });
+  };
+
+  // 8) Bouton "Réinitialiser"
+  const handleResetFilters = () => {
+    setSearchInput('');
+    setNameOrderInput('');
+    setNoteOrderInput('');
+    setSpecialtyInput('');
+    setLocationInput('');
+
+    setAppliedFilters({
+      search: '',
+      nameOrder: '',
+      noteOrder: '',
+      specialtyId: '',
+      location: '',
+    });
+  };
 
   return (
     <main className="list-page py-4 py-lg-5">
-      <div className="container">
-        {/* barre recherche */}
+      <div className="container list-page-inner">
+        {/* Barre de recherche */}
         <section className="list-search mb-4 mb-lg-5">
           <div className="input-group list-search-input">
             <span className="input-group-text bg-transparent border-0">
@@ -100,74 +199,123 @@ function ListArtisans() {
               className="form-control border-0"
               placeholder="Rechercher un artisan"
               aria-label="Rechercher un artisan"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
           </div>
         </section>
 
-        <div className="row">
+        <h2 className="list-results-title mb-4">Résultats :</h2>
+
+        <div className="row list-main-row">
           {/* COLONNE FILTRES */}
           <div className="col-12 col-lg-4 mb-4 mb-lg-0">
             <section className="filters-card p-3 p-lg-4">
-              {/* Filtre catégorie */}
+              {/* Par nom */}
               <div className="mb-3">
-                <label className="form-label" htmlFor="filter-category">
-                  Catégorie
+                <label className="form-label" htmlFor="filter-name">
+                  Par nom
                 </label>
                 <select
-                  id="filter-category"
+                  id="filter-name"
                   className="form-select"
-                  value={selectedCategoryId}
-                  onChange={(e) => {
-                    setSelectedCategoryId(e.target.value);
-                    setSelectedSpecialtyId('');
-                  }}
+                  value={nameOrderInput}
+                  onChange={(e) => setNameOrderInput(e.target.value)}
                 >
-                  <option value="">Toutes les catégories</option>
-                  {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
+                  <option value="">Aucun tri</option>
+                  <option value="az">Nom A → Z</option>
+                  <option value="za">Nom Z → A</option>
+                </select>
+              </div>
+
+              {/* Par note */}
+              <div className="mb-3">
+                <label className="form-label" htmlFor="filter-note">
+                  Par note
+                </label>
+                <select
+                  id="filter-note"
+                  className="form-select"
+                  value={noteOrderInput}
+                  onChange={(e) => setNoteOrderInput(e.target.value)}
+                >
+                  <option value="">Toutes les notes</option>
+                  <option value="best">Meilleure note en premier</option>
+                  <option value="worst">Moins bien notés en premier</option>
+                </select>
+              </div>
+
+              {/* Par spécialité */}
+              <div className="mb-3">
+                <label className="form-label" htmlFor="filter-specialty">
+                  Par spécialité
+                </label>
+                <select
+                  id="filter-specialty"
+                  className="form-select"
+                  value={specialtyInput}
+                  onChange={(e) => setSpecialtyInput(e.target.value)}
+                >
+                  <option value="">Toutes les spécialités</option>
+                  {allSpecialties.map((spec) => (
+                    <option key={spec.id} value={spec.id}>
+                      {spec.name}
                     </option>
                   ))}
                 </select>
               </div>
 
-              {/* Filtre spécialité */}
+              {/* Par localisation */}
               <div className="mb-3">
-                <label className="form-label" htmlFor="filter-specialty">
-                  Spécialité
+                <label className="form-label" htmlFor="filter-location">
+                  Par localisation
                 </label>
                 <select
-                  id="filter-specialty"
+                  id="filter-location"
                   className="form-select"
-                  value={selectedSpecialtyId}
-                  onChange={(e) => setSelectedSpecialtyId(e.target.value)}
-                  disabled={!selectedCategoryId}
+                  value={locationInput}
+                  onChange={(e) => setLocationInput(e.target.value)}
                 >
-                  <option value="">Toutes les spécialités</option>
-                  {specialtiesForSelectedCategory.map((specialty) => (
-                    <option key={specialty.id} value={specialty.id}>
-                      {specialty.name}
+                  <option value="">Toutes les localisations</option>
+                  {allLocations.map((city) => (
+                    <option key={city} value={city}>
+                      {city}
                     </option>
                   ))}
                 </select>
+              </div>
+
+              {/* Boutons */}
+              <div className="filters-actions">
+                <button
+                  type="button"
+                  className="list-btn-primary"
+                  onClick={handleApplyFilters}
+                >
+                  Rechercher
+                </button>
+
+                <button
+                  type="button"
+                  className="list-btn-secondary"
+                  onClick={handleResetFilters}
+                >
+                  Réinitialiser
+                </button>
               </div>
             </section>
           </div>
 
           {/* COLONNE RÉSULTATS */}
           <div className="col-12 col-lg-8">
-            <h2 className="list-results-title mb-3">Résultats :</h2>
-
             {loading && <p>Chargement des artisans...</p>}
 
-            {!loading && !artisans.length && (
+            {!loading && !processedArtisans.length && (
               <p>Aucun artisan ne correspond à votre recherche.</p>
             )}
 
             <div className="row g-3">
-              {artisans.map((artisan) => (
+              {processedArtisans.map((artisan) => (
                 <div key={artisan.id} className="col-12 col-md-6">
                   <Link
                     to={`/artisan/${artisan.id}`}
