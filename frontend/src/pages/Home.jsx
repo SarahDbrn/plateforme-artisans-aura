@@ -1,9 +1,19 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HowToFindArtisan from '../components/HowToFindArtisan';
 import FeaturedArtisans from '../components/FeaturedArtisans';
 
-
 function Home() {
+  const [heroSearch, setHeroSearch] = useState('');
+  const navigate = useNavigate();
+
+  const handleHeroSearchSubmit = (e) => {
+    e.preventDefault();
+    if (!heroSearch.trim()) return;
+
+    navigate(`/artisans?search=${encodeURIComponent(heroSearch.trim())}`);
+  };
+
   return (
     <main className="home">
       {/* HERO DESKTOP */}
@@ -19,7 +29,10 @@ function Home() {
 
             {/* Barre de recherche du hero */}
             <div className="home-hero-search-wrapper">
-              <div className="input-group home-hero-search">
+              <form
+                className="input-group home-hero-search"
+                onSubmit={handleHeroSearchSubmit}
+              >
                 <span className="input-group-text bg-transparent border-0">
                   <i className="bi bi-search" />
                 </span>
@@ -28,8 +41,10 @@ function Home() {
                   className="form-control border-0"
                   placeholder="Rechercher un artisan"
                   aria-label="Rechercher un artisan"
+                  value={heroSearch}
+                  onChange={(e) => setHeroSearch(e.target.value)}
                 />
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -40,7 +55,6 @@ function Home() {
 
       {/* Section "Artisans du mois" */}
       <FeaturedArtisans />
-
     </main>
   );
 }

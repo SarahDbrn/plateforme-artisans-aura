@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { api } from '../services/api';
+import { fetchCategories, fetchArtisans } from '../services/api';
 
 function ListArtisans() {
   const location = useLocation();
 
+  // On lit les paramètres de l’URL au premier rendu
   const params = new URLSearchParams(location.search);
   const initialCategoryFromURL = params.get('category') || '';
+  const initialSearchFromURL = params.get('search') || '';
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(initialSearchFromURL);
   const [artisans, setArtisans] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -33,32 +35,35 @@ function ListArtisans() {
 
   // Charger les catégories une seule fois
   useEffect(() => {
-    async function fetchCategories() {
+    async function loadCategories() {
       try {
-        const data = await api.getCategories();
+        const data = await fetchCategories();
         setCategories(data);
       } catch (error) {
         console.error('Erreur lors du chargement des catégories :', error);
       }
     }
 
-    fetchCategories();
+    loadCategories();
   }, []);
 
-  // Mettre à jour la catégorie quand l’URL change (clic depuis le header)
+  // Mettre à jour la catégorie ET la recherche quand l’URL change (clic depuis le header, back/forward…)
   useEffect(() => {
     const newParams = new URLSearchParams(location.search);
     const categoryFromURL = newParams.get('category') || '';
+    const searchFromURL = newParams.get('search') || '';
+
     setSelectedCategoryId(categoryFromURL);
     setSelectedSpecialtyId('');
+    setSearch(searchFromURL);
   }, [location.search]);
 
   // Charger les artisans selon catégorie / spécialité / recherche
   useEffect(() => {
-    async function fetchArtisans() {
+    async function loadArtisans() {
       setLoading(true);
       try {
-        const data = await api.getArtisans({
+        const data = await fetchArtisans({
           categoryId: selectedCategoryId || undefined,
           specialtyId: selectedSpecialtyId || undefined,
           search: search || undefined,
@@ -71,13 +76,14 @@ function ListArtisans() {
       }
     }
 
-    fetchArtisans();
+    loadArtisans();
   }, [selectedCategoryId, selectedSpecialtyId, search]);
 
   const selectedCategory = categories.find(
     (cat) => cat.id === Number(selectedCategoryId),
   );
 
+  // Attention : selon ce que renvoie l’API, il faudra peut-être adapter la clé (Specialties)
   const specialtiesForSelectedCategory = selectedCategory?.Specialties || [];
 
   return (

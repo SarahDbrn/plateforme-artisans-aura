@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { api } from '../services/api';
+import { fetchArtisans } from '../services/api';
 
 function FeaturedArtisans() {
   const [artisans, setArtisans] = useState([]);
@@ -8,7 +8,7 @@ function FeaturedArtisans() {
 
   const renderStars = (rating) => {
     const stars = [];
-    const rounded = Math.round(rating); // au cas où rating = 4.5
+    const rounded = Math.round(Number(rating)); // au cas où rating est une string
 
     for (let i = 1; i <= 5; i += 1) {
       stars.push(
@@ -22,9 +22,10 @@ function FeaturedArtisans() {
   };
 
   useEffect(() => {
-    async function fetchFeatured() {
+    async function loadFeatured() {
       try {
-        const data = await api.getArtisans({ featured: true });
+        // ✅ PARAM CORRECT POUR LE BACKEND
+        const data = await fetchArtisans({ top: true });
         setArtisans(data);
       } catch (error) {
         console.error('Erreur lors du chargement des artisans du mois :', error);
@@ -33,7 +34,7 @@ function FeaturedArtisans() {
       }
     }
 
-    fetchFeatured();
+    loadFeatured();
   }, []);
 
   if (loading) {
@@ -85,7 +86,7 @@ function FeaturedArtisans() {
 
                   <p className="featured-specialty mb-0">
                     <span className="featured-specialty-link">
-                      {artisan.Specialty?.name}
+                      {artisan.Speciality?.name}
                     </span>
                   </p>
 

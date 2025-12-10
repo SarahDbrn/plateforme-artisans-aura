@@ -316,3 +316,155 @@ input::placeholder {
     row-gap: 1.5rem;
   }
 }
+
+/* ---------------------------
+   FICHE ARTISAN
+----------------------------*/
+
+.artisan-page {
+  background-color: #f1f8fc; // même fond que home
+}
+
+/* Layout desktop : on centre verticalement la fiche + la carte */
+@media (min-width: 992px) {
+  .artisan-page .artisan-row {
+    min-height: calc(100vh - 200px); // ajuste selon header/footer
+    align-items: stretch;            // colonnes = même hauteur
+  }
+
+  .artisan-page .artisan-col-info {
+    display: flex; // colonne gauche = flex container
+  }
+
+  .artisan-page .artisan-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // 👉 centre verticalement le contenu
+  }
+}
+
+/* Colonne infos artisan */
+
+.artisan-info {
+  .artisan-photo {
+    width: 180px;
+    height: 180px;
+    border-radius: 20px;
+    background-color: #d9d9d9; // placeholder gris
+  }
+
+  .artisan-name-detail {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: $primary;
+    text-align: center;
+  }
+
+  .artisan-stars-detail {
+    color: #82b864; // vert des étoiles
+    font-size: 1rem;
+
+    .bi {
+      margin-right: 2px;
+    }
+  }
+
+  .artisan-meta {
+    font-size: 0.95rem;
+    color: #384050;
+  }
+
+  .artisan-specialty-link,
+  .artisan-location-link {
+    color: $primary;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .artisan-about-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #384050;
+    text-align: center;
+  }
+
+  .artisan-about-text {
+    font-size: 0.95rem;
+    color: #384050;
+    text-align: center;
+  }
+
+  .artisan-website-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #384050;
+  }
+
+  .artisan-website-link {
+    font-size: 0.95rem;
+    color: $primary;
+    text-align: center;
+  }
+}
+
+/* Carte formulaire */
+
+.artisan-contact-card {
+  background-color: #ffffff;          // 👉 card blanche
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+
+  .artisan-contact-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: $primary;
+  }
+
+  .artisan-contact-intro {
+    font-size: 0.95rem;
+    color: #384050;
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #384050;
+  }
+
+  .form-control {
+    border-radius: 10px;
+    border-color: $primary;
+    font-size: 0.92rem;
+    background-color: #f1f8fc; // même couleur que le fond de page
+  }
+
+  .form-control:focus {
+    background-color: #f1f8fc;
+    box-shadow: 0 0 0 0.15rem rgba(0, 116, 199, 0.15);
+  }
+
+  .artisan-contact-submit {
+    background-color: #82b864;   // 👉 bouton vert
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.5rem 2.5rem;
+    border-radius: 8px;
+    border: none;
+
+    &:hover {
+      background-color: darken(#82b864, 5%);
+      color: #ffffff;
+    }
+  }
+}
+
+/* Responsive mobile : tout en colonne, pas de centrage vertical spécial */
+@media (max-width: 991.98px) {
+  .artisan-info {
+    text-align: center;
+
+    .artisan-photo {
+      margin-bottom: 1rem;
+    }
+  }
+}
