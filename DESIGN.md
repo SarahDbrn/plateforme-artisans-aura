@@ -51,6 +51,24 @@ Les principaux éléments utilisés dans les maquettes :
 - Le design a été validé avant le développement comme demandé dans l’énoncé du devoir.
 
 ---
+## 📷 Aperçu rapide
+### Mobile
+![Mobile Home](./design/Home%20(Mobile).png)
+![Mobile Liste](./design/Liste%20artisans%20(Mobile).png)
+![Mobile Fiche](./design/Fiche%20Artisan%20(Mobile).png)
+![Mobile 404](./design/Page%20404%20(Mobile).png)
+
+### Desktop
+![Desktop Home](./design/Home%20(Desktop).png)
+![Desktop Liste](./design/Liste%20Artisans%20(Desktop).png)
+![Desktop Fiche](./design/Fiche%20Artisan%20(Desktop).png)
+![Desktop 404](./design/Page%20404%20(Desktop).png)
+
+### Tablette
+![Tablette Home](./design/Home%20(Tablette).png)
+![Tablette Liste](./design/Liste%20artisans%20(Tablette).png)
+![Tablette Fiche](./design/Fiche%20Artisan%20(Tablette).png)
+![Tablette 404](./design/Page%20404%20(Tablette).png)
 
 ### ✨ Dernière mise à jour : 10/12/2026
 
