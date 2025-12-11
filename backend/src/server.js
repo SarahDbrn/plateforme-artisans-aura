@@ -3,29 +3,52 @@ const cors = require('cors');
 require('dotenv').config();
 
 const sequelize = require('./config/database');
-const { Category, Speciality, Artisan } = require('./models');
-
 const categoriesRoutes = require('./routes/categories');
 const artisansRoutes = require('./routes/artisans');
 
 const app = express();
 
-// Middlewares
-app.use(express.json());
-app.use(cors({}));
+// -----------------------------
+// CORS
+// -----------------------------
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://plateforme-artisans-aura.onrender.com',
+];
 
-// Route de test
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Autoriser aussi les requêtes sans origin (Postman, etc.)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  })
+);
+
+// -----------------------------
+// Middlewares
+// -----------------------------
+app.use(express.json());
+
+// -----------------------------
+// Routes
+// -----------------------------
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// Routes métier
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/artisans', artisansRoutes);
 
+// -----------------------------
+// Lancement du serveur
+// -----------------------------
 const PORT = process.env.PORT || 3001;
 
-// Connexion à la base puis lancement du serveur
 sequelize
   .authenticate()
   .then(() => {
@@ -37,8 +60,3 @@ sequelize
   .catch((err) => {
     console.error('Erreur de connexion à la base :', err);
   });
-
-  console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_PORT:', process.env.DB_PORT);
-console.log('DB_NAME:', process.env.DB_NAME);
-console.log('DB_USER:', process.env.DB_USER);
