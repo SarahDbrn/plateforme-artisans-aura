@@ -12,11 +12,7 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(
-  cors({
-    origin: 'http://localhost:3000', // adapte si besoin
-  })
-);
+app.use(cors({}));
 
 // Route de test
 app.get('/api/health', (req, res) => {
