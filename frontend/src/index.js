@@ -5,10 +5,15 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/main.scss';
 import App from './App';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { HelmetProvider } from "react-helmet-async";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
-    <App />
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
   </React.StrictMode>
 );
+

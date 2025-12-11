@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { fetchCategories, fetchArtisans } from '../services/api';
+import { Helmet } from "react-helmet-async";
+
 
 function ListArtisans() {
   const location = useLocation();
@@ -186,6 +188,14 @@ function ListArtisans() {
   };
 
   return (
+    <>
+    <Helmet>
+        <title>Liste des artisans – Plateforme Artisans AURA</title>
+        <meta
+          name="description"
+          content="Filtrez et trouvez rapidement un artisan par spécialité, localisation, note ou nom dans la région Auvergne Rhône-Alpes."
+        />
+      </Helmet>
     <main className="list-page py-4 py-lg-5">
       <div className="container list-page-inner">
         {/* Barre de recherche */}
@@ -348,6 +358,7 @@ function ListArtisans() {
         </div>
       </div>
     </main>
+    </>
   );
 }
 

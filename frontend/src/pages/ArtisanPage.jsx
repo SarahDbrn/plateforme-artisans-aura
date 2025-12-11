@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchArtisanById, sendContactMessage } from '../services/api';
+import { Helmet } from "react-helmet-async";
+
 
 function ArtisanPage() {
   const { id } = useParams();
@@ -101,6 +103,23 @@ function ArtisanPage() {
   }
 
   return (
+    <>
+    <Helmet>
+        <title>
+          {artisan
+            ? `${artisan.name} – Artisan ${artisan.specialty} à ${artisan.location}`
+            : "Fiche artisan – Plateforme Artisans AURA"}
+        </title>
+
+        <meta
+          name="description"
+          content={
+            artisan
+              ? `Découvrez ${artisan.name}, artisan spécialisé en ${artisan.specialty} à ${artisan.location}. Consultez ses informations et contactez-le facilement via le formulaire.`
+              : "Découvrez les fiches détaillées des artisans de la région Auvergne Rhône-Alpes."
+          }
+        />
+      </Helmet>
     <main className="artisan-page py-4 py-lg-5">
       <div className="container">
         <div className="row g-4 g-lg-5 artisan-row">
@@ -249,6 +268,7 @@ function ArtisanPage() {
         </div>
       </div>
     </main>
+    </>
   );
 }
 

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HowToFindArtisan from '../components/HowToFindArtisan';
 import FeaturedArtisans from '../components/FeaturedArtisans';
+import { Helmet } from "react-helmet-async";
+
 
 function Home() {
   const [heroSearch, setHeroSearch] = useState('');
@@ -15,6 +17,14 @@ function Home() {
   };
 
   return (
+    <>
+    <Helmet>
+        <title>Plateforme Artisans AURA – Trouvez un artisan près de chez vous</title>
+        <meta
+          name="description"
+          content="Découvrez les artisans de la région Auvergne Rhône-Alpes et trouvez facilement un professionnel qualifié pour vos travaux."
+        />
+      </Helmet>
     <main className="home">
       {/* HERO DESKTOP */}
       <section className="home-hero d-none d-lg-block">
@@ -56,6 +66,7 @@ function Home() {
       {/* Section "Artisans du mois" */}
       <FeaturedArtisans />
     </main>
+    </>
   );
 }
 
