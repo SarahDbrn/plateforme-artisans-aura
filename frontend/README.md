@@ -1,70 +1,163 @@
-# Getting Started with Create React App
+1. Fonctionnalités principales
+    Front-end (React)
+Design mobile first (maquettes Figma — responsive desktop/tablette/mobile).
+Pages :
+Accueil
+Liste des artisans (avec filtres et recherche)
+Fiche artisan détaillée
+Pages légales (mentions légales, données personnelles, accessibilité, cookies)
+Page 404
+Header dynamique avec menu alimenté par l’API.
+Barre de recherche globale dans l’en-tête.
+Formulaire de contact envoyant un message via l’API.
+Titres & meta-descriptions pour le SEO.
+Respect des normes d’accessibilité WCAG 2.1.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+    Back-end (Node.js + Express)
+API REST sécurisée interrogeant une base MySQL.
+Création de trois modèles Sequelize :
+Category
+Speciality
+Artisan
+Endpoints :
+GET /categories
+GET /specialities
+GET /artisans
+GET /artisans/:id
+POST /artisans/:id/contact
+Validation des données envoyées au formulaire.
+Protection contre :
+Injections SQL
+XSS
+Mauvaise configuration CORS
+Gestion des variables sensibles via .env
+API servie uniquement en HTTPS sur Render.
 
-## Available Scripts
+    Base de données (MySQL)
+Script de création : database.sql
+Relations :
+1 Catégorie → N Spécialités
+1 Spécialité → N Artisans
+Données alimentées depuis data.xlsx
 
-In the project directory, you can run:
+2. Liens du projet
+    Site en ligne (Front-end)
+https://plateforme-artisans-aura.onrender.com/
+    API en ligne (Back-end)
+https://artisans-backend-f4wf.onrender.com
+    Repository GitHub
+https://github.com/SarahDbrn/plateforme-artisans-aura
+    Maquettes Figma
+### Mobile
+![Mobile Home](./design/Home%20(Mobile).png)
+![Mobile Liste](./design/Liste%20artisans%20(Mobile).png)
+![Mobile Fiche](./design/Fiche%20Artisan%20(Mobile).png)
+![Mobile 404](./design/Page%20404%20(Mobile).png)
 
-### `npm start`
+### Desktop
+![Desktop Home](./design/Home%20(Desktop).png)
+![Desktop Liste](./design/Liste%20Artisans%20(Desktop).png)
+![Desktop Fiche](./design/Fiche%20Artisan%20(Desktop).png)
+![Desktop 404](./design/Page%20404%20(Desktop).png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Tablette
+![Tablette Home](./design/Home%20(Tablette).png)
+![Tablette Liste](./design/Liste%20artisans%20(Tablette).png)
+![Tablette Fiche](./design/Fiche%20Artisan%20(Tablette).png)
+![Tablette 404](./design/Page%20404%20(Tablette).png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. Installation & lancement
+Prérequis : 
+Node.js v16+
+MySQL ou MariaDB
+npm ou yarn
 
-### `npm test`
+Installation du backend :
+cd backend
+npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Configurer les variables d'environnement
+Créer un fichier .env dans /backend :
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=yourpassword
+DB_NAME=artisans
+DB_PORT=3306
 
-### `npm run build`
+API_KEY=your_api_key
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Créer & alimenter la base de données
+Importer le fichier SQL :
+source database.sql;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Lancer le serveur API
+npm start
+L'API tourne sur :
+http://localhost:5000
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Installation du frontend
+cd frontend
+npm install
+npm start
 
-### `npm run eject`
+4. Structure du projet
+plateforme-artisans-aura/
+│
+├── backend/
+│   ├── src/
+│   │   ├── config/database.js
+│   │   ├── models/
+│   │   │   ├── Artisan.js
+│   │   │   ├── Category.js
+│   │   │   ├── Speciality.js
+│   │   │   └── index.js
+│   │   ├── routes/
+│   │   │   ├── artisans.js
+│   │   │   └── categories.js
+│   │   └── server.js
+│   ├── .env
+│   └── package.json
+│
+├── frontend/
+│   ├── src
+│   ├── public
+│   └── package.json
+│
+├── database.sql
+├── data.xlsx
+└── README.md
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5. Sécurité mise en place
+Sequelize → protection contre injections SQL
+CORS configuré (domaines autorisés uniquement)
+Validation des champs formulaires côté front et côté back
+Variables sensibles dans .env (non versionné)
+HTTPS obligatoire sur Render
+Architecture séparée front/back
+Headers sécurisés recommandés (helmet)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+6. Veille sécurité
+Sources étudiées :
+OWASP Top 10
+CERT-FR
+Node.js best practices
+React Security Guidelines
+Vulnérabilités surveillées :
+XSS
+CSRF
+Injection SQL
+Exposition .env
+Manque de validation côté serveur
+Mesures appliquées :
+Contrôles d’entrée
+CORS restrictif
+Sécurisation des formulaires
+Logs d’erreurs contrôlés
+Utilisation de Sequelize
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+7. Auteur
+Projet réalisé par Sarah DEBRUYNE dans le cadre du module Développement Web.
+Année : 2025
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+8. Licence
+Projet pédagogique – reproduction interdite hors usage scolaire.
