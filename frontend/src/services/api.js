@@ -1,5 +1,6 @@
-const API_BASE_URL = "https://artisans-backend-f4wf.onrender.com";
+export const API_BASE_URL = "https://artisans-backend-f4wf.onrender.com/api";
 export { API_BASE_URL };
+
 // -------------------------------
 // CATEGORIES
 // -------------------------------
