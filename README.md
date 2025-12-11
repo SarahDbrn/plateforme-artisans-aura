@@ -175,6 +175,8 @@ plateforme-artisans-aura/
 │   ├── .env (non versionné)
 │   └── package.json
 │
+├── design/
+│
 ├── frontend/
 │   ├── src/
 │   ├── public/
